@@ -46,7 +46,7 @@ test {
 
 jib {
     to {
-        image = 'registry.hub.docker.com/regyl/testing-system'
+        image = 'registry.hub.docker.com/regyl/currency-checker'
         auth {
             username = "$System.env.DockerHubLogin"
             password = "$System.env.DockerHubPassword"
