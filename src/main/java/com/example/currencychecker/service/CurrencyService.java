@@ -1,8 +1,9 @@
 package com.example.currencychecker.service;
 
-import com.example.currencychecker.api.controller.dto.response.OpenexchangeDtoResponse.*;
-import com.example.currencychecker.api.controller.exception.CurrencyNotFoundException;
+import com.example.currencychecker.api.controller.dto.response.OpenexchangeDtoResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class CurrencyService {
@@ -13,11 +14,12 @@ public class CurrencyService {
         this.openexchangeClient = openexchangeClient;
     }
 
-    public Currency getDifference(String name) {
-        return openexchangeClient.getLatest().getRates().stream()
+    public OpenexchangeDtoResponse getDifference(String name) {
+        return openexchangeClient.getLatest();
+        /*return openexchangeClient.getLatest().getRates().stream()
                 .filter(item -> item.getName().equals(name))
                 .findFirst()
-                .orElseThrow(CurrencyNotFoundException::new);
+                .orElseThrow(CurrencyNotFoundException::new);*/
     }
 
 }

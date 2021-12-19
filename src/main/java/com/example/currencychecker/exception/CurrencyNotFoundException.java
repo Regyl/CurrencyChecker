@@ -1,4 +1,4 @@
-package com.example.currencychecker.api.controller.exception;
+package com.example.currencychecker.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

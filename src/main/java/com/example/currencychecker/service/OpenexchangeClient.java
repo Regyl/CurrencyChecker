@@ -17,5 +17,5 @@ public interface OpenexchangeClient {
     OpenexchangeDtoResponse getLatest();
 
     @GetMapping("/historical/{date}.json")
-    List<HashMap<String, Integer>> getHistorical(@PathVariable LocalDate date);
+    OpenexchangeDtoResponse getHistorical(@PathVariable LocalDate date);
 }
