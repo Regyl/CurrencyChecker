@@ -1,4 +1,4 @@
-package com.example.currencychecker.api.controller.dto.response;
+package com.example.currencychecker.controller.dto.response;
 
 import lombok.Data;
 

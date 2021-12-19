@@ -1,6 +1,6 @@
-package com.example.currencychecker.api.controller;
+package com.example.currencychecker.controller;
 
-import com.example.currencychecker.api.controller.dto.response.OpenexchangeDtoResponse;
+import com.example.currencychecker.controller.dto.response.OpenexchangeDtoResponse;
 import com.example.currencychecker.service.CurrencyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +24,7 @@ public class CurrencyController {
 
     @GetMapping("/difference")
     @Operation(summary = "Check difference")
-    public OpenexchangeDtoResponse getDifference(
+    public Float getDifference(
             @RequestParam @Pattern(regexp = "[A-Z]{3}") String name) {
         return service.getDifference(name);
     }
