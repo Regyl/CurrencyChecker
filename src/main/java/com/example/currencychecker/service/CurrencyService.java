@@ -1,9 +1,8 @@
 package com.example.currencychecker.service;
 
+import com.example.currencychecker.api.controller.dto.response.OpenexchangeDtoResponse.*;
+import com.example.currencychecker.api.controller.exception.CurrencyNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
 
 @Service
 public class CurrencyService {
@@ -14,8 +13,11 @@ public class CurrencyService {
         this.openexchangeClient = openexchangeClient;
     }
 
-    public List<HashMap<String, Integer>> getLatest() {
-        return openexchangeClient.getLatest().getRates();
+    public Currency getDifference(String name) {
+        return openexchangeClient.getLatest().getRates().stream()
+                .filter(item -> item.getName().equals(name))
+                .findFirst()
+                .orElseThrow(CurrencyNotFoundException::new);
     }
 
 }
