@@ -1,6 +1,7 @@
 package com.example.currencychecker.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.Logger;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import feign.codec.Decoder;
