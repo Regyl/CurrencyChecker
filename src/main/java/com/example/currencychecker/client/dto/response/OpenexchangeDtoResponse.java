@@ -1,4 +1,4 @@
-package com.example.currencychecker.controller.dto.response;
+package com.example.currencychecker.client.dto.response;
 
 import lombok.Data;
 
@@ -8,5 +8,5 @@ import java.util.HashMap;
 public class OpenexchangeDtoResponse {
 
     private HashMap<String, Float> rates;
-    //TODO: Оптимизировать (возможно PhantomReference, вытягивая лишь одно значение из всех
+
 }
