@@ -1,4 +1,4 @@
-package com.example.currencychecker;
+package com.example.currencychecker.unit;
 
 import com.example.currencychecker.controller.CurrencyController;
 import com.example.currencychecker.service.CurrencyService;
