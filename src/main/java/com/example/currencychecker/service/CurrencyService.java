@@ -11,8 +11,6 @@ import java.time.LocalDate;
 @Service
 public class CurrencyService {
 
-    private static final Integer LIMIT_PER_REQUEST = 1;
-
     private final OpenexchangeClient openexchangeClient;
     private final GiphyClient giphyClient;
 
@@ -20,26 +18,29 @@ public class CurrencyService {
     private final String giphyApiKey;
     private final String giphySuccessWord;
     private final String giphyFailureWord;
+    private final Integer giphyLimitPerRequest;
 
     public CurrencyService(OpenexchangeClient openexchangeClient, GiphyClient giphyClient,
                            @Value("${openexchange.base-currency}") String baseCurrency,
                            @Value("${giphy.api-key}") String giphyApiKey,
                            @Value("${giphy.success-word}") String giphySuccessWord,
-                           @Value("${giphy.failure-word}") String giphyFailureWord) {
+                           @Value("${giphy.failure-word}") String giphyFailureWord,
+                           @Value("${giphy.limit-per-request}") Integer giphyLimitPerRequest) {
         this.openexchangeClient = openexchangeClient;
         this.baseCurrency = baseCurrency;
         this.giphyApiKey = giphyApiKey;
         this.giphyClient = giphyClient;
         this.giphySuccessWord = giphySuccessWord;
         this.giphyFailureWord = giphyFailureWord;
+        this.giphyLimitPerRequest = giphyLimitPerRequest;
     }
 
     public String getGif(String name) {
         if(isNewValueBigger(name)) {
-            return giphyClient.getGif(giphyApiKey, giphySuccessWord, LIMIT_PER_REQUEST)
+            return giphyClient.getGif(giphyApiKey, giphySuccessWord, giphyLimitPerRequest)
                     .getFirstOriginalUrl();
         } else {
-            return giphyClient.getGif(giphyApiKey, giphyFailureWord, LIMIT_PER_REQUEST)
+            return giphyClient.getGif(giphyApiKey, giphyFailureWord, giphyLimitPerRequest)
                     .getFirstOriginalUrl();
         }
     }
