@@ -1,12 +1,12 @@
 package com.example.currencychecker.unit;
 
 import com.example.currencychecker.client.GiphyClient;
-import com.example.currencychecker.client.OpenexchangeClient;
+import com.example.currencychecker.client.OpenExchangeClient;
 import com.example.currencychecker.client.dto.response.GiphyDtoResponse;
+import com.example.currencychecker.client.dto.response.OpenExchangeDtoResponse;
 import com.example.currencychecker.service.CurrencyService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
@@ -18,20 +18,20 @@ import javax.annotation.PostConstruct;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @TestPropertySource("classpath:application.properties")
 class CurrencyServiceTest {
 
-    @Autowired
+    private static final String VALID_CURRENCY = "STN";
+
+    private static PodamFactoryImpl podamFactory;
+
     private CurrencyService service;
-    @Autowired
-    private PodamFactory podamFactory;
+
 
     @MockBean
-    private OpenexchangeClient openexchangeClient;
+    private OpenExchangeClient openexchangeClient;
     @MockBean
     private GiphyClient giphyClient;
 
@@ -41,7 +41,15 @@ class CurrencyServiceTest {
     }
 
     @Test
-    void test() {
+    void invalidOpenExchangeResponse() {
+        OpenExchangeDtoResponse invalidResponse = podamFactory.manufacturePojoWithFullData(OpenExchangeDtoResponse.class);
+        when(openexchangeClient.getLatest()).thenReturn(invalidResponse);
+
+        assertThrows(ClassNotFoundException.class, () -> service.getGif(VALID_CURRENCY));
+    }
+
+    @Test
+    void validOpenExchangeResponse() {
 
     }
 }

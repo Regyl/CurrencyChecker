@@ -1,7 +1,7 @@
 package com.example.currencychecker.service;
 
 import com.example.currencychecker.client.GiphyClient;
-import com.example.currencychecker.client.OpenexchangeClient;
+import com.example.currencychecker.client.OpenExchangeClient;
 import com.example.currencychecker.exception.CurrencyNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Service
 public class CurrencyService {
 
-    private final OpenexchangeClient openexchangeClient;
+    private final OpenExchangeClient openexchangeClient;
     private final GiphyClient giphyClient;
 
     private final String baseCurrency; //Вынесена по требованиям в настройки, но не используется, т.к. нужна платная подписка на openexchange
@@ -20,7 +20,7 @@ public class CurrencyService {
     private final String giphyFailureWord;
     private final Integer giphyLimitPerRequest;
 
-    public CurrencyService(OpenexchangeClient openexchangeClient, GiphyClient giphyClient,
+    public CurrencyService(OpenExchangeClient openexchangeClient, GiphyClient giphyClient,
                            @Value("${openexchange.base-currency}") String baseCurrency,
                            @Value("${giphy.api-key}") String giphyApiKey,
                            @Value("${giphy.success-word}") String giphySuccessWord,
@@ -45,7 +45,7 @@ public class CurrencyService {
         }
     }
 
-    protected boolean isNewValueBigger(String name) {
+    private boolean isNewValueBigger(String name) {
         Float newValue = openexchangeClient.getLatest()
                         .getRates()
                         .get(name);
