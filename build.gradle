@@ -32,7 +32,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.1'
 
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.1'
-    testImplementation 'uk.co.jemos.podam:podam:7.1.0.RELEASE'
 }
 
 dependencyManagement {

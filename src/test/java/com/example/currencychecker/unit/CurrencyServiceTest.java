@@ -4,31 +4,31 @@ import com.example.currencychecker.client.GiphyClient;
 import com.example.currencychecker.client.OpenExchangeClient;
 import com.example.currencychecker.client.dto.response.GiphyDtoResponse;
 import com.example.currencychecker.client.dto.response.OpenExchangeDtoResponse;
+import com.example.currencychecker.exception.CurrencyNotFoundException;
 import com.example.currencychecker.service.CurrencyService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@TestPropertySource("classpath:application.properties")
+@ExtendWith({SpringExtension.class})
+@SpringBootTest
 class CurrencyServiceTest {
 
     private static final String VALID_CURRENCY = "STN";
 
-    private static PodamFactoryImpl podamFactory;
-
+    @Autowired
     private CurrencyService service;
-
 
     @MockBean
     private OpenExchangeClient openexchangeClient;
@@ -37,15 +37,19 @@ class CurrencyServiceTest {
 
     @PostConstruct
     void setup() {
-        when(giphyClient.getGif(anyString(),anyString(), anyInt())).thenReturn(podamFactory.manufacturePojoWithFullData(GiphyDtoResponse.class));
+        GiphyDtoResponse response = new GiphyDtoResponse();
+        response.setData(new ArrayList<>(1));
+        when(giphyClient.getGif(anyString(),anyString(), anyInt())).thenReturn(response);
     }
+
 
     @Test
     void invalidOpenExchangeResponse() {
-        OpenExchangeDtoResponse invalidResponse = podamFactory.manufacturePojoWithFullData(OpenExchangeDtoResponse.class);
+
+        OpenExchangeDtoResponse invalidResponse = new OpenExchangeDtoResponse();
         when(openexchangeClient.getLatest()).thenReturn(invalidResponse);
 
-        assertThrows(ClassNotFoundException.class, () -> service.getGif(VALID_CURRENCY));
+        assertDoesNotThrow( () -> service.getGif(VALID_CURRENCY));
     }
 
     @Test
