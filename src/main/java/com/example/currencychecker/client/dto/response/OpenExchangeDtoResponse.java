@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.HashMap;
 
 @Data
-public class OpenexchangeDtoResponse {
+public class OpenExchangeDtoResponse {
 
     private HashMap<String, Float> rates;
 
