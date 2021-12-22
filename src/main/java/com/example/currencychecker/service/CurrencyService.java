@@ -1,7 +1,7 @@
 package com.example.currencychecker.service;
 
 import com.example.currencychecker.client.GiphyClient;
-import com.example.currencychecker.client.OpenexchangeClient;
+import com.example.currencychecker.client.OpenExchangeClient;
 import com.example.currencychecker.exception.CurrencyNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,40 +11,41 @@ import java.time.LocalDate;
 @Service
 public class CurrencyService {
 
-    private static final Integer LIMIT_PER_REQUEST = 1;
-
-    private final OpenexchangeClient openexchangeClient;
+    private final OpenExchangeClient openexchangeClient;
     private final GiphyClient giphyClient;
 
     private final String baseCurrency; //Вынесена по требованиям в настройки, но не используется, т.к. нужна платная подписка на openexchange
     private final String giphyApiKey;
     private final String giphySuccessWord;
     private final String giphyFailureWord;
+    private final Integer giphyLimitPerRequest;
 
-    public CurrencyService(OpenexchangeClient openexchangeClient, GiphyClient giphyClient,
+    public CurrencyService(OpenExchangeClient openexchangeClient, GiphyClient giphyClient,
                            @Value("${openexchange.base-currency}") String baseCurrency,
                            @Value("${giphy.api-key}") String giphyApiKey,
                            @Value("${giphy.success-word}") String giphySuccessWord,
-                           @Value("${giphy.failure-word}") String giphyFailureWord) {
+                           @Value("${giphy.failure-word}") String giphyFailureWord,
+                           @Value("${giphy.limit-per-request}") Integer giphyLimitPerRequest) {
         this.openexchangeClient = openexchangeClient;
         this.baseCurrency = baseCurrency;
         this.giphyApiKey = giphyApiKey;
         this.giphyClient = giphyClient;
         this.giphySuccessWord = giphySuccessWord;
         this.giphyFailureWord = giphyFailureWord;
+        this.giphyLimitPerRequest = giphyLimitPerRequest;
     }
 
     public String getGif(String name) {
         if(isNewValueBigger(name)) {
-            return giphyClient.getGif(giphyApiKey, giphySuccessWord, LIMIT_PER_REQUEST)
+            return giphyClient.getGif(giphyApiKey, giphySuccessWord, giphyLimitPerRequest)
                     .getFirstOriginalUrl();
         } else {
-            return giphyClient.getGif(giphyApiKey, giphyFailureWord, LIMIT_PER_REQUEST)
+            return giphyClient.getGif(giphyApiKey, giphyFailureWord, giphyLimitPerRequest)
                     .getFirstOriginalUrl();
         }
     }
 
-    protected boolean isNewValueBigger(String name) {
+    private boolean isNewValueBigger(String name) {
         Float newValue = openexchangeClient.getLatest()
                         .getRates()
                         .get(name);
