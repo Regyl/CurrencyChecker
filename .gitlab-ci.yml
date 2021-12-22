@@ -1,0 +1,39 @@
+default:
+  image: java:17-jdk
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  after_script:
+    - echo "Love u, bye"
+
+stages:
+  - build
+  - test
+  - deploy
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+project-build:
+  stage: build
+  script:
+    - ./gradlew clean assemble
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 1 week
+  only:
+    - master
+
+project-tests:
+  stage: test
+  script:
+    - ./gradlew check
+
+deploy project:
+  stage: deploy
+  script:
+    # You must enable docker before
+    # Build and push image to DockerHub
+    - ./gradlew jibDockerBuild
