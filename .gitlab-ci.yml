@@ -35,5 +35,5 @@ deploy project:
   stage: deploy
   script:
     # You must enable docker before
-    # Build and push image to DockerHub
+    # Build and push image to Docker Hub
     - ./gradlew jibDockerBuild
