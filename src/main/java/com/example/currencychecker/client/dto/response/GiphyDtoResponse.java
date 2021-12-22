@@ -1,6 +1,6 @@
 package com.example.currencychecker.client.dto.response;
 
-import lombok.*;
+import lombok.Data;
 
 import java.util.ArrayList;
 
@@ -15,18 +15,18 @@ public class GiphyDtoResponse {
                 .getUrl();
     }
 
-    @lombok.Data
-    private static class GeneralData {
+    @Data
+    public static class GeneralData {
 
         private Image images;
 
-        @lombok.Data
-        private static class Image {
+        @Data
+        public static class Image {
 
             private Original original;
 
-            @lombok.Data
-            private static class Original {
+            @Data
+            public static class Original {
 
                 private String url;
             }

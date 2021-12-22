@@ -1,7 +1,7 @@
 package com.example.currencychecker.client;
 
-import com.example.currencychecker.config.OpenexchangeConfiguration;
 import com.example.currencychecker.client.dto.response.OpenExchangeDtoResponse;
+import com.example.currencychecker.config.OpenexchangeConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
